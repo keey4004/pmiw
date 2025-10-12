@@ -1,7 +1,7 @@
 /*Bejar Keyla Nerea 
 Inchauspe Celeste
-vid. Keyla:
-vid. Celeste:
+vid. Keyla: https://www.youtube.com/watch?v=-d1HjRhFl08
+vid. Celeste: https://www.youtube.com/watch?v=Ekseos9QNmI
 */
 
 let pantalla = 0; 
@@ -295,3 +295,4 @@ function mousePressed() {
     }
   }
 }
+
