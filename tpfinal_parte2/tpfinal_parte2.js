@@ -1,7 +1,13 @@
+//Video:
+// Bejar, Keyla
+//Inchauspe, Celeste: https://youtu.be/zfAxbXglC_A
+
 let pantalla = "inicio";
 let boton;
-//let musica;
-//let sonido;
+
+let musica;
+let sonido;
+
 let xTeseo, xMinotauro;
 let velocidadMinotauro = 2;
 let vidasTeseo = 3;
@@ -15,8 +21,8 @@ let imgFondo;
 let imgJuego;
 
 function preload() {
-//  musica = loadSound("./data/musica.mp3");
-// sonido = loadSound("./data/sonido.mp3");
+  musica = loadSound("data/musica.mp3");
+  sonido = loadSound("/data/sonidos.mp3");
   imgFondo = loadImage("data/background.png");
   imgJuego = loadImage("data/background2.png");
   imgTeseo = loadImage("data/teseo.png");
@@ -35,6 +41,10 @@ function setup() {
   boton = createButton("Comenzar");
   boton.position(width / 2 - 40, height / 2 + 120);
   boton.mousePressed(cambiarPantalla);
+
+  botonCreditos = createButton("Créditos");
+  botonCreditos.position(width / 2 - 40, height / 2 + 170);
+  botonCreditos.mousePressed(() => pantalla = "creditos");
 }
 
 //---Pantalla inicio---
@@ -56,12 +66,16 @@ function draw() {
       "¡Evita al Minotauro!", width / 2, height/2 + 40);
 
     boton.show();
-  } 
-  
+    boton.html("Comenzar");
+
+    botonCreditos.show();
+  }
+    
   else if (pantalla == "juego") {
     background(180, 220, 180);
     image(imgJuego, 0, 0, width, height);
     boton.hide();
+    botonCreditos.hide();
 
     //---Vidas del Minotauro---
     fill(255);
@@ -97,6 +111,7 @@ function draw() {
       
       if (dist(balasTeseo[i].x, balasTeseo[i].y, xMinotauro, 80) < 40) {
         vidasMinotauro--;
+        sonido.play();
         balasTeseo.splice(i, 1);
         i--;
       }
@@ -110,6 +125,7 @@ function draw() {
       
       if (dist(balasMinotauro[i].x, balasMinotauro[i].y, xTeseo, height - 80) < 30) {
         vidasTeseo--;
+        sonido.play();
         balasMinotauro.splice(i, 1);
         i--;
       }
@@ -135,8 +151,29 @@ function draw() {
     textSize(18);
     text("Clip en Comenzar para reiniciar", width / 2, height / 2 + 20);
     boton.show();
+    boton.html("Comenzar");
+    botonCreditos.hide();
   }
 
+  else if (pantalla == "creditos") {
+    background(0);
+    fill(255);
+    textSize(26);
+    text("CRÉDITOS", width / 2, 80);
+
+    textSize(18);
+    text(
+      "Alumnas: Bejar Keyla e Inchauspe, Celeste" +
+      "Comision 3",
+      width / 2,
+      150
+    );
+
+    boton.show();
+    boton.html("Volver");
+    boton.position(width / 2 - 40, height - 100);
+    botonCreditos.hide();
+  }
 }
 
 function keyPressed() {
@@ -145,12 +182,19 @@ function keyPressed() {
     else if (keyCode === RIGHT_ARROW) xTeseo += 10;
     else if (key === " ") {
       balasTeseo.push({ x: xTeseo, y: height - 100 });
+      sonido.play();
     }
   }
 }
 
 function cambiarPantalla() {
   pantalla = "juego";
+  
+  if (!musica.isPlaying()) {
+    musica.loop();
+    musica.setVolume(0.5);
+  }
+  
   vidasTeseo = 3;
   vidasMinotauro = 3;
   balasTeseo = [];
@@ -158,3 +202,4 @@ function cambiarPantalla() {
   xTeseo = width / 2;
   xMinotauro = width / 2;
 }
+
